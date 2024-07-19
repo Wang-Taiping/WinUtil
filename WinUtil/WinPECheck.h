@@ -3,7 +3,7 @@
 #ifndef WINPECHECK_H
 #define WINPECHECK_H
 
-#include "UtilBase.h"
+#include "WinUtilBase.h"
 
 #ifdef __cplusplus
 extern "C" {

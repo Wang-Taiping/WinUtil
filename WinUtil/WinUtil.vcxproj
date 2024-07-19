@@ -151,14 +151,19 @@
     <ClInclude Include="IPC.hpp" />
     <ClInclude Include="ResourceLoader.h" />
     <ClInclude Include="Shortcut.h" />
-    <ClInclude Include="UtilBase.h" />
+    <ClInclude Include="WinUtilBase.h" />
     <ClInclude Include="WinPECheck.h" />
+    <ClInclude Include="WndFrame.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IPC.cpp" />
     <ClCompile Include="ResourceLoader.cpp" />
     <ClCompile Include="Shortcut.cpp" />
     <ClCompile Include="WinPECheck.cpp" />
+    <ClCompile Include="WndFrame.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

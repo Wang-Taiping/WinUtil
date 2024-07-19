@@ -3,7 +3,7 @@
 #ifndef WINUTIL_SHORTCUT_H
 #define WINUTIL_SHORTCUT_H
 
-#include "UtilBase.h"
+#include "WinUtilBase.h"
 
 #ifdef __cplusplus
 extern "C" {

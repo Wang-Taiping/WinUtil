@@ -3,7 +3,7 @@
 #ifndef WINUTIL_IPC_H
 #define WINUTIL_IPC_H
 
-#include "UtilBase.h"
+#include "WinUtilBase.h"
 
 #ifdef __cplusplus
 extern "C" {

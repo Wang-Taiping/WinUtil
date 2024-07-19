@@ -3,7 +3,7 @@
 #ifndef WINUTIL_RESLOADER_H
 #define WINUTIL_RESLOADER_H
 
-#include "UtilBase.h"
+#include "WinUtilBase.h"
 
 #ifdef __cplusplus
 extern "C" {

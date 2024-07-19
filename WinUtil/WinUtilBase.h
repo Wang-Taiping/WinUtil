@@ -34,4 +34,6 @@ typedef enum ConflictBehavior
 	ConflictCancel
 } ConflictBehavior;
 
+typedef void(*WinUtilCallback)(void*);
+
 #endif // !WINUTIL_H

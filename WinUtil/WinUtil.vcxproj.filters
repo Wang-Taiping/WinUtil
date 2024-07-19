@@ -30,7 +30,10 @@
     <ClInclude Include="WinPECheck.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="UtilBase.h">
+    <ClInclude Include="WinUtilBase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="WndFrame.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,5 +50,11 @@
     <ClCompile Include="WinPECheck.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="WndFrame.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cpp.hint" />
   </ItemGroup>
 </Project>
