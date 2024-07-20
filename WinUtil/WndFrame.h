@@ -6,6 +6,38 @@
 #include <wtypes.h>
 #include "WinUtilBase.h"
 
+#define CreateCentralWindowA(lpClassName, lpWindowName, dwStyle, nWidth, nHeight,\
+	hWndParent, hMenu, hInstance, lpParam)\
+	CreateWindowExA(0L, lpClassName, lpWindowName, dwStyle, \
+	(GetSystemMetrics(SM_CXFULLSCREEN) - (nWidth)) / 2, \
+	(GetSystemMetrics(SM_CYFULLSCREEN) - (nHeight)) / 2, \
+	nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
+#define CreateCentralWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, nWidth, nHeight,\
+	hWndParent, hMenu, hInstance, lpParam)\
+	CreateWindowExA(dwExStyle, lpClassName, lpWindowName, dwStyle, \
+	(GetSystemMetrics(SM_CXFULLSCREEN) - (nWidth)) / 2, \
+	(GetSystemMetrics(SM_CYFULLSCREEN) - (nHeight)) / 2, \
+	nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
+#define CreateCentralWindowW(lpszClassName, lpszWindowName, dwStyle, nWidth, nHeight,\
+	hWndParent, hMenu, hInstance, lpParam)\
+	CreateWindowExW(0L, lpszClassName, lpszWindowName, dwStyle, \
+	(GetSystemMetrics(SM_CXFULLSCREEN) - (nWidth)) / 2, \
+	(GetSystemMetrics(SM_CYFULLSCREEN) - (nHeight)) / 2, \
+	nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
+#define CreateCentralWindowExW(dwExStyle, lpszClassName, lpszWindowName, dwStyle, nWidth, nHeight,\
+	hWndParent, hMenu, hInstance, lpParam)\
+	CreateWindowExW(dwExStyle, lpszClassName, lpszWindowName, dwStyle, \
+	(GetSystemMetrics(SM_CXFULLSCREEN) - (nWidth)) / 2, \
+	(GetSystemMetrics(SM_CYFULLSCREEN) - (nHeight)) / 2, \
+	nWidth, nHeight, hWndParent, hMenu, hInstance, lpParam)
+#ifdef UNICODE
+#define CreateCentralWindow		CreateCentralWindowW
+#define CreateCentralWindowEx	CreateCentralWindowExW
+#else
+#define CreateCentralWindow		CreateCentralWindowA
+#define CreateCentralWindowEx	CreateCentralWindowExA
+#endif // !UNICODE
+
 #define CS_RECOMMEND	0x0003
 
 #ifdef __cplusplus
