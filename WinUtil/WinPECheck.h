@@ -8,7 +8,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-	ubool WinPECheck();
+	ubool WINUTIL_API WinPECheck();
 #ifdef __cplusplus
 }
 #endif // __cplusplus

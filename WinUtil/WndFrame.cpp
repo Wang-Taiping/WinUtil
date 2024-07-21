@@ -40,75 +40,109 @@ ATOM RegisterWndClassExW(UINT style, HINSTANCE hInstance, LPCWSTR lpszClassName,
 	return RegisterClassExW(&wcex);
 }
 
-#define MAX_ACCELTABLE_ARRAY_ELEM	4096
+#define MAX_HWNDATTRIBUTES_NUMBER	4096
 
 thread_local struct
 {
 	MsgLoopIdle IdleCallback;
 	void* IdleParam;
-} MsgLoopIdleAttributes;
+} MsgLoopAttributes;
 
 thread_local bool MsgLoopStatus = false;
 
-struct NativeAccelTable
+struct NativeHWNDAttributes
 {
 	HWND hWnd;
 	HACCEL hAccel;
+	//WNDPROC hHook;
 };
 
-thread_local NativeAccelTable* AccelTable = nullptr;
+thread_local NativeHWNDAttributes* HWNDAttributes = nullptr;
 
-static void DefaultMsgLoopIdle(void*)
+static void WINUTIL_CALLBACK DefaultMsgLoopIdle(void*)
 {
 	Sleep(10);
 }
 
-int StartMsgLoop(MsgLoopIdle IdleCallback, void* IdleParam)
+int StartMsgLoop(MsgLoopInit InitCallback, void* InitParam, MsgLoopIdle IdleCallback, void* IdleParam)
 {
 	if (MsgLoopStatus) return -1;
-	AccelTable = new NativeAccelTable[MAX_ACCELTABLE_ARRAY_ELEM];
-	memset(AccelTable, 0, sizeof(NativeAccelTable) * MAX_ACCELTABLE_ARRAY_ELEM);
-	MsgLoopIdleAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
-	MsgLoopIdleAttributes.IdleParam = IdleParam;
+	MsgLoopStatus = true;
+	HWNDAttributes = new NativeHWNDAttributes[MAX_HWNDATTRIBUTES_NUMBER];
+	memset(HWNDAttributes, 0, sizeof(NativeHWNDAttributes) * MAX_HWNDATTRIBUTES_NUMBER);
+	MsgLoopAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
+	MsgLoopAttributes.IdleParam = IdleParam;
+	if (InitCallback) InitCallback(InitParam);
 	MSG Msg;
 	while (true) {
 	QueryMessage:
 		if (PeekMessageW(&Msg, nullptr, 0, 0, PM_REMOVE)) {
 			if (Msg.message == WM_QUIT) break;
 			// TODO: Translate...
-			for (size_t i = 0; i < MAX_ACCELTABLE_ARRAY_ELEM; i++) {
-				if (AccelTable[i].hWnd == Msg.hwnd && AccelTable[i].hAccel && TranslateAcceleratorW(AccelTable[i].hWnd, AccelTable[i].hAccel, &Msg))
+			for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
+				if (HWNDAttributes[i].hWnd == Msg.hwnd && HWNDAttributes[i].hAccel && TranslateAcceleratorW(HWNDAttributes[i].hWnd, HWNDAttributes[i].hAccel, &Msg))
 					goto QueryMessage;
 			}
 			TranslateMessage(&Msg);
 			DispatchMessageW(&Msg);
-			if (Msg.message == WM_NCDESTROY) {
-				for (size_t i = 0; i < MAX_ACCELTABLE_ARRAY_ELEM; i++) {
-					if (AccelTable[i].hWnd == Msg.hwnd) {
-						AccelTable[i].hAccel = nullptr;
-						AccelTable[i].hWnd = nullptr;
-					}
-				}
-			}
 		}
-		else MsgLoopIdleAttributes.IdleCallback(MsgLoopIdleAttributes.IdleParam);
+		else MsgLoopAttributes.IdleCallback(MsgLoopAttributes.IdleParam);
 	}
-	delete[] AccelTable;
+	delete[] HWNDAttributes;
+	MsgLoopStatus = false;
 	return Msg.wParam;
 }
 
 void SetMsgLoopIdleCallback(MsgLoopIdle IdleCallback)
 {
-	MsgLoopIdleAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
+	if (MsgLoopStatus) return;
+	MsgLoopAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
 }
 
 void SetMsgLoopIdleParam(void* IdleParam)
 {
-	MsgLoopIdleAttributes.IdleParam = IdleParam;
+	if (MsgLoopStatus) return;
+	MsgLoopAttributes.IdleParam = IdleParam;
 }
 
 void SetMsgLoopIdleAttributes(MsgLoopIdle IdleCallback, void* IdleParam)
 {
-	MsgLoopIdleAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
-	MsgLoopIdleAttributes.IdleParam = IdleParam;
+	if (MsgLoopStatus) return;
+	MsgLoopAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
+	MsgLoopAttributes.IdleParam = IdleParam;
+}
+
+ubool WINUTIL_API RegisterHWNDAttributes(HWND hWnd)
+{
+	if (MsgLoopStatus) return false;
+	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
+		if (HWNDAttributes[i].hWnd == hWnd) return false;
+	}
+	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
+		if (!HWNDAttributes[i].hWnd) HWNDAttributes[i].hWnd = hWnd;
+		return true;
+	}
+	return false;
+}
+
+ubool WINUTIL_API UnregisterHWNDAttributes(HWND hWnd)
+{
+	if (MsgLoopStatus) return false;
+	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
+		if (HWNDAttributes[i].hWnd == hWnd) {
+			memset(&HWNDAttributes[i], 0, sizeof(NativeHWNDAttributes));
+			return true;
+		}
+	}
+	return false;
+}
+
+ubool SetHWNDAccelerator(HWND hWnd, HACCEL hAccel)
+{
+	if (MsgLoopStatus) return false;
+	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
+		if (HWNDAttributes[i].hWnd == hWnd) HWNDAttributes[i].hAccel = hAccel;
+		return true;
+	}
+	return false;
 }

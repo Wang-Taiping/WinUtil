@@ -9,19 +9,19 @@
 extern "C" {
 #endif // __cplusplus
 	typedef Access IPCAccess;
-	TYPEHANDLE(HPIPE);
+	WINUTIL_TYPENAME(HPIPE);
 
-	WINUTIL_EXPORT int PipeExistA(const char* PipeName, uint32_t Milliseconds);
-	WINUTIL_EXPORT int PipeExistW(const wchar_t* PipeName, uint32_t Milliseconds);
-	WINUTIL_EXPORT HPIPE PipeCreateA(const char* PipeName, int AccessMode);
-	WINUTIL_EXPORT HPIPE PipeCreateW(const wchar_t* PipeName, int AccessMode);
-	WINUTIL_EXPORT int PipeOpen(HPIPE PipeHandle);
-	WINUTIL_EXPORT void PipeClose(HPIPE PipeHandle);
-	WINUTIL_EXPORT HPIPE PipeConnectA(const char* PipeName, int AccessMode);
-	WINUTIL_EXPORT HPIPE PipeConnectW(const wchar_t* PipeName, int AccessMode);
-	WINUTIL_EXPORT void PipeDestroy(HPIPE PipeHandle);
-	WINUTIL_EXPORT uint64_t PipeRead(HPIPE PipeHandle, void* Buffer, uint64_t ReadBytes);
-	WINUTIL_EXPORT uint64_t PipeWrite(HPIPE PipeHandle, const void* Data, uint64_t WriteBytes);
+	WINUTIL_EXPORT int WINUTIL_API PipeExistA(const char* PipeName, uint32_t Milliseconds);
+	WINUTIL_EXPORT int WINUTIL_API PipeExistW(const wchar_t* PipeName, uint32_t Milliseconds);
+	WINUTIL_EXPORT HPIPE WINUTIL_API PipeCreateA(const char* PipeName, int AccessMode);
+	WINUTIL_EXPORT HPIPE WINUTIL_API PipeCreateW(const wchar_t* PipeName, int AccessMode);
+	WINUTIL_EXPORT int WINUTIL_API PipeOpen(HPIPE PipeHandle);
+	WINUTIL_EXPORT void WINUTIL_API PipeClose(HPIPE PipeHandle);
+	WINUTIL_EXPORT HPIPE WINUTIL_API PipeConnectA(const char* PipeName, int AccessMode);
+	WINUTIL_EXPORT HPIPE WINUTIL_API PipeConnectW(const wchar_t* PipeName, int AccessMode);
+	WINUTIL_EXPORT void WINUTIL_API PipeDestroy(HPIPE PipeHandle);
+	WINUTIL_EXPORT uint64_t WINUTIL_API PipeRead(HPIPE PipeHandle, void* Buffer, uint64_t ReadBytes);
+	WINUTIL_EXPORT uint64_t WINUTIL_API PipeWrite(HPIPE PipeHandle, const void* Data, uint64_t WriteBytes);
 #ifdef __cplusplus
 }
 #endif // __cplusplusj

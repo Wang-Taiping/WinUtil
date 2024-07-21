@@ -43,17 +43,20 @@
 #ifdef __cplusplus
 extern "C" {
 #endif // __cplusplus
-	typedef WinUtilCallback MsgLoopIdle;
+	typedef WinUtilCallback MsgLoopInit, MsgLoopIdle;
 
-	WINUTIL_EXPORT ATOM RegisterWndClassA(UINT style, HINSTANCE hInstance, LPCSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HCURSOR hCursor, LPCSTR lpszMenuName);
-	WINUTIL_EXPORT ATOM RegisterWndClassW(UINT style, HINSTANCE hInstance, LPCWSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HCURSOR hCursor, LPCWSTR lpszMenuName);
-	WINUTIL_EXPORT ATOM RegisterWndClassExA(UINT style, HINSTANCE hInstance, LPCSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HICON hIconSm, HCURSOR hCursor, LPCSTR lpszMenuName);
-	WINUTIL_EXPORT ATOM RegisterWndClassExW(UINT style, HINSTANCE hInstance, LPCWSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HICON hIconSm, HCURSOR hCursor, LPCWSTR lpszMenuName);
+	WINUTIL_EXPORT ATOM WINUTIL_API RegisterWndClassA(UINT style, HINSTANCE hInstance, LPCSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HCURSOR hCursor, LPCSTR lpszMenuName);
+	WINUTIL_EXPORT ATOM WINUTIL_API RegisterWndClassW(UINT style, HINSTANCE hInstance, LPCWSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HCURSOR hCursor, LPCWSTR lpszMenuName);
+	WINUTIL_EXPORT ATOM WINUTIL_API RegisterWndClassExA(UINT style, HINSTANCE hInstance, LPCSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HICON hIconSm, HCURSOR hCursor, LPCSTR lpszMenuName);
+	WINUTIL_EXPORT ATOM WINUTIL_API RegisterWndClassExW(UINT style, HINSTANCE hInstance, LPCWSTR lpszClassName, WNDPROC lpfnWndProc, HICON hIcon, HICON hIconSm, HCURSOR hCursor, LPCWSTR lpszMenuName);
 
-	WINUTIL_EXPORT int StartMsgLoop(MsgLoopIdle IdleCallback, void* IdleParam);
-	WINUTIL_EXPORT void SetMsgLoopIdleCallback(MsgLoopIdle IdleCallback);
-	WINUTIL_EXPORT void SetMsgLoopIdleParam(void* IdleParam);
-	WINUTIL_EXPORT void SetMsgLoopIdleAttributes(MsgLoopIdle IdleCallback, void* IdleParam);
+	WINUTIL_EXPORT int WINUTIL_API StartMsgLoop(MsgLoopInit InitCallback, void* InitParam, MsgLoopIdle IdleCallback, void* IdleParam);
+	WINUTIL_EXPORT void WINUTIL_API SetMsgLoopIdleCallback(MsgLoopIdle IdleCallback);
+	WINUTIL_EXPORT void WINUTIL_API SetMsgLoopIdleParam(void* IdleParam);
+	WINUTIL_EXPORT void WINUTIL_API SetMsgLoopIdleAttributes(MsgLoopIdle IdleCallback, void* IdleParam);
+	WINUTIL_EXPORT ubool WINUTIL_API RegisterHWNDAttributes(HWND hWnd);
+	WINUTIL_EXPORT ubool WINUTIL_API UnregisterHWNDAttributes(HWND hWnd);
+	WINUTIL_EXPORT ubool WINUTIL_API SetHWNDAccelerator(HWND hWnd, HACCEL hAccel);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

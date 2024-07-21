@@ -1,2 +1,4 @@
-#define WINUTIL_EXPORT __declspec(dllexport)
-#define WINUTIL_EXPORT __declspec(dllimport)
+#define WINUTIL_EXPORT	__declspec(dllexport)
+#define WINUTIL_EXPORT	__declspec(dllimport)
+#define WINUTIL_API			__stdcall
+#define WINUTIL_CALLBACK	__stdcall
