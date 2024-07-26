@@ -95,26 +95,26 @@ int StartMsgLoop(MsgLoopInit InitCallback, void* InitParam, MsgLoopIdle IdleCall
 
 void SetMsgLoopIdleCallback(MsgLoopIdle IdleCallback)
 {
-	if (MsgLoopStatus) return;
+	if (!MsgLoopStatus) return;
 	MsgLoopAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
 }
 
 void SetMsgLoopIdleParam(void* IdleParam)
 {
-	if (MsgLoopStatus) return;
+	if (!MsgLoopStatus) return;
 	MsgLoopAttributes.IdleParam = IdleParam;
 }
 
 void SetMsgLoopIdleAttributes(MsgLoopIdle IdleCallback, void* IdleParam)
 {
-	if (MsgLoopStatus) return;
+	if (!MsgLoopStatus) return;
 	MsgLoopAttributes.IdleCallback = IdleCallback ? IdleCallback : DefaultMsgLoopIdle;
 	MsgLoopAttributes.IdleParam = IdleParam;
 }
 
 ubool WINUTIL_API RegisterHWNDAttributes(HWND hWnd)
 {
-	if (MsgLoopStatus) return false;
+	if (!MsgLoopStatus) return false;
 	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
 		if (HWNDAttributes[i].hWnd == hWnd) return false;
 	}
@@ -127,7 +127,7 @@ ubool WINUTIL_API RegisterHWNDAttributes(HWND hWnd)
 
 ubool WINUTIL_API UnregisterHWNDAttributes(HWND hWnd)
 {
-	if (MsgLoopStatus) return false;
+	if (!MsgLoopStatus) return false;
 	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
 		if (HWNDAttributes[i].hWnd == hWnd) {
 			memset(&HWNDAttributes[i], 0, sizeof(NativeHWNDAttributes));
@@ -139,7 +139,7 @@ ubool WINUTIL_API UnregisterHWNDAttributes(HWND hWnd)
 
 ubool SetHWNDAccelerator(HWND hWnd, HACCEL hAccel)
 {
-	if (MsgLoopStatus) return false;
+	if (!MsgLoopStatus) return false;
 	for (size_t i = 0; i < MAX_HWNDATTRIBUTES_NUMBER; i++) {
 		if (HWNDAttributes[i].hWnd == hWnd) HWNDAttributes[i].hAccel = hAccel;
 		return true;
